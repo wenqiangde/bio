@@ -3,6 +3,17 @@
 	<head>
 		<title>玩命开发</title>
 		<meta chartset="utf-8"/>
+		<script language="Javascript">
+    		function doword(doc)                    //doc为你的当前路径下的文件名
+		{
+		var url=unescape(window.location.href).replace( "file:///","");
+		url =url.substring(0,url.lastIndexOf("/")+1).replace("/","//");
+		url=url+doc;
+		var WordApp=new ActiveXObject("Word.Application");
+		WordApp.Application.Visible=true;
+		var Doc=WordApp.Documents.Add(url,true);
+		}
+    </script>
 	</head>
 	<body>
 		<font align="center"><h1>张文强移动端开发</h1></font>
@@ -56,6 +67,6 @@
 		<a href="https://www.kotlincn.net/docs/kotlin-docs.pdf"><font color="#333333" size="%30">Kotlin PDF</font></a>
 		<br/>
 		<br/>
-		<a href="./docs.html"><font color="#333333" size="%30">应用被拒原因总结</font></a>
+		<button onClick="doword('应用被拒原因总结.doc')"><font color="#333333" size="%30">应用被拒原因总结</font></button>
 	</body>
 </html>
