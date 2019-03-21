@@ -3,11 +3,20 @@
 	<head>
 	<meta charset="UTF-8">
     	<title></title>
-    	<script>
-    		var word = new ActiveXObject("Word.Application");
-		word.Visible = true;
-		word.Documents.Open("./应用被拒原因总结.doc");
+    	<script language="Javascript">
+    		function doword(doc)                    //doc为你的当前路径下的文件名
+		{
+		var url=unescape(window.location.href).replace( "file:///","");
+		url =url.substring(0,url.lastIndexOf("/")+1).replace("/","//");
+		url=url+doc;
+		var WordApp=new ActiveXObject("Word.Application");
+		WordApp.Application.Visible=true;
+		var Doc=WordApp.Documents.Add(url,true);
+		}
     </script>
     </head>
-	<body></body>
+	<body>
+	
+<button onClick="doword('应用被拒原因总结.doc')">打开Word文档</button>
+	</body>
 </html>
