@@ -71,13 +71,11 @@
                 {
                     $.each (data, function (i, item)
                     {
-                        $ ("#disp").append ("<h3>" + item.name + "</h3>");
-                        $ ("#disp").append ("<p>" + item.sex + "</p>");
-                        $ ("#disp").append ("<p>" + item.email + "</p>");
-                        var img = new Image();
+                        if (i%9 ==  0) {
+                            $("#disp").append("<br>");
+                        }
+                        var img = new Image(item.width, item.height);
                         img.src = item.imagepath;
-                        $(img).width(item.width);
-                        $(img).height(item.height);
                         $ ("#disp").append (img);
                     });
                 });
@@ -154,7 +152,7 @@
     </div>
 </div> <br>
 
-<div id="disp" ></div>
+<div id="disp"></div>
 
 </body>
 </html>
