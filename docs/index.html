@@ -3,8 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>玩命开发</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"/>
+    <script language="JavaScript">
+        var s = "";
+        var result = [];
+        function FileInfo(path, name,time) {
+            this.path = path;
+            this.name = name;
+            this.time = time;
+        }
+        function showFolderFileList(folderspec)
+        {
+            var fso,f,fc,name;
+            var url,str,file,filename;
+            fso = new ActiveXObject("Scripting.FileSystemObject");
+            // fso = window.ActiveXObject;
+            // f = fso.GetFolder(folderspec);
+            f = fso.GetObject(folderspec);
+            fc = new Enumerator( f.files );
+            for (; !fc.atEnd(); fc.moveNext( ) ) {
+                filename = fso.GetFileName( fc.item( ) );
+                var file = fso.getFile(folderspec + "/" + filename);
+                var fileInfo = new FileInfo(folderspec, filename, file.DateLastModified);
+                result.push(fileInfo);
+            }
+            var Collection = new Enumerator(f.SubFolders);
+
+            for (Collection.moveFirst(); !Collection.atEnd(); Collection.moveNext()) {
+                var Obj = Collection.item();
+                showFolderFileList(Obj.Path);
+            }
+            return result;
+        }
+        function display_result(result)
+        {
+            var body = document.getElementById("mtbody");
+            var size = result.length;
+            var tr = document.getElementById("mtr");
+            for( var i =0; i < size; i++ ) {
+                var newTr = tr.cloneNode(true);
+                var children = newTr.children;
+                for( var j = 0 ; j < children.length; j++) {
+                    var item = children.item(j);
+                    switch(j) {
+                        case 0:
+                            item.innerHTML = result[i].path;
+                            break;
+                        case 1:
+                            item.innerHTML = result[i].name;
+                            break;
+                        case 2:
+                            item.innerHTML = result[i].time;
+                    }
+                }
+                body.appendChild(newTr);
+            }
+        }
+        function run(i, folder) {
+            var list_result = showFolderFileList(folder);
+            display_result(list_result);
+        }
+    </script>
+    <script type="text/javascript">
+        var Ajax = function ()
+            {
+                $.getJSON ("json/userinfo.json", function (data)
+                {
+                    $.each (data, function (i, item)
+                    {
+                        $ ("#disp").append ("<h3>" + item.name + "</h3>");
+                        $ ("#disp").append ("<p>" + item.sex + "</p>");
+                        $ ("#disp").append ("<p>" + item.email + "</p>");
+                        var img = new Image();
+                        img.src = item.imagepath;
+                        $(img).width(item.width);
+                        $(img).height(item.height);
+                        $ ("#disp").append (img);
+                    });
+                });
+            }
+    </script>
 </head>
-<body>
+<body onload="Ajax();">
 <font align="center"><h1>张文强移动端开发</h1></font>
 <br/>
 <a href='./java8api/api/index.html'><font color="#333333" size=%30>jdk-8-docsa-all</font></a>
@@ -60,35 +140,21 @@
 <a href="./readdocs.html"><font color="#333333" size="%30">Read DOC</font></a>
 <br/>
 <br/>
-<div id="image list"/>
+<div id="image list" onload="run(0, '../images/webps')">
+    <div id ="table">
+        <table id="mtable" border=1>
+            <tbody id="mtbody">
+            <tr id="mtr">
+                <td>File Path</td>
+                <td>File name</td>
+                <td>Last Modify</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <br>
 
-<script type="text/javascript">
-    // const fso = new ActiveXObject("Scripting.FileSystemObject");
-    const fso = window.ActiveXObject;
-
-    let curPath = location.href;
-
-    curPath=curPath.substr(8,curPath.length-16);
-
-    // listall("F:\\software\\新建文件夹");
-    // listall(curPath);
-
-    listAll("./images/webps/")
-    function listAll(infd)
-    {
-        const fd = fso.GetObject(infd);  //这里的变量一定要用var  申明
-        const fe = new Enumerator(fd.files); //这里的变量一定要用var  申明
-        while(!fe.atEnd())
-        {
-            const src = "<img src=\"" + fe.item() + "\"/>";
-            document.write(src);
-            document.write("<br>");
-
-            fe.moveNext();
-        }
-
-    }
-</script>
+<div id="disp" ></div>
 
 </body>
 </html>

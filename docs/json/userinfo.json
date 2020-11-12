@@ -1,0 +1,26 @@
+[
+  {
+    "name":"张国立",
+    "sex":"男",
+    "email":"zhangguoli@123.com",
+    "imagepath": "./images/webps/p2540569584.webp",
+    "width": 80,
+    "height": 120
+  },
+  {
+    "name":"张铁林",
+    "sex":"男",
+    "email":"zhangtieli@123.com",
+    "imagepath": "./images/webps/p2541035591.webp",
+    "width": 80,
+    "height": 120
+  },
+  {
+    "name":"邓婕",
+    "sex":"女",
+    "email":"zhenjie@123.com",
+    "imagepath": "./images/webps/p2541901817.webp",
+    "width": 80,
+    "height": 120
+  }
+]
